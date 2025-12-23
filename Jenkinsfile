@@ -10,7 +10,6 @@ pipeline {
         IMAGE_NAME = "demo_spring_with_argo"
         FULL_IMAGE = "${DOCKERHUB_USER}/${IMAGE_NAME}"
         IMAGE_TAG  = "${BUILD_NUMBER}"
-        CONTAINER_NAME = "demo_spring_with_argo-container"
     }
 
     stages {
@@ -30,7 +29,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                bat 'docker build -t %FULL_IMAGE%:${IMAGE_TAG} .'
+                bat 'docker build -t %FULL_IMAGE%:%IMAGE_TAG% .'
             }
         }
 
@@ -48,15 +47,14 @@ pipeline {
 
         stage('Docker Push') {
             steps {
-                bat 'docker push %FULL_IMAGE%:${IMAGE_TAG}'
+                bat 'docker push %FULL_IMAGE%:%IMAGE_TAG%'
             }
         }
-
     }
 
     post {
         success {
-            echo '🚀 Image pushed to Docker Hub and application deployed'
+            echo "🚀 Image pushed: ${FULL_IMAGE}:${IMAGE_TAG}"
         }
         failure {
             echo '❌ CI/CD failed'
