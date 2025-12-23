@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: demo_Spring_with_argo
