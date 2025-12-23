@@ -9,6 +9,7 @@ pipeline {
         DOCKERHUB_USER = "rajuray143"
         IMAGE_NAME = "demo_spring_with_argo"
         FULL_IMAGE = "${DOCKERHUB_USER}/${IMAGE_NAME}"
+        IMAGE_TAG  = "${BUILD_NUMBER}"
         CONTAINER_NAME = "demo_spring_with_argo-container"
     }
 
@@ -29,7 +30,7 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                bat 'docker build -t %FULL_IMAGE%:latest .'
+                bat 'docker build -t %FULL_IMAGE%:${IMAGE_TAG} .'
             }
         }
 
@@ -47,7 +48,7 @@ pipeline {
 
         stage('Docker Push') {
             steps {
-                bat 'docker push %FULL_IMAGE%:latest'
+                bat 'docker push %FULL_IMAGE%:${IMAGE_TAG}'
             }
         }
 
