@@ -49,7 +49,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<finalName>demo_Spring_with_argo</finalName>
+		<finalName>demo_spring_with_argo</finalName>
 	</build>
 
 </project>

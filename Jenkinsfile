@@ -7,9 +7,9 @@ pipeline {
 
     environment {
         DOCKERHUB_USER = "rajuray143"
-        IMAGE_NAME = "demo_Spring_with_argo"
+        IMAGE_NAME = "demo_spring_with_argo"
         FULL_IMAGE = "${DOCKERHUB_USER}/${IMAGE_NAME}"
-        CONTAINER_NAME = "demo_Spring_with_argo-container"
+        CONTAINER_NAME = "demo_spring_with_argo-container"
     }
 
     stages {
