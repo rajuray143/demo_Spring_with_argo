@@ -7,17 +7,17 @@ pipeline {
 
     environment {
         DOCKERHUB_USER = "rajuray143"
-        IMAGE_NAME = "springboot-cicd-demo"
+        IMAGE_NAME = "demo_Spring_with_argo"
         FULL_IMAGE = "${DOCKERHUB_USER}/${IMAGE_NAME}"
-        CONTAINER_NAME = "springboot-cicd-container"
+        CONTAINER_NAME = "demo_Spring_with_argo-container"
     }
 
     stages {
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/rajuray143/demo-with-ci-cd.git'
+                git branch: 'master',
+                    url: 'https://github.com/rajuray143/demo_Spring_with_argo'
             }
         }
 
