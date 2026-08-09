@@ -23,13 +23,13 @@ pipeline {
 
         stage('Build JAR') {
             steps {
-                bat 'mvn clean package -DskipTests'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
         stage('Docker Build') {
             steps {
-                bat 'docker build -t %FULL_IMAGE%:%IMAGE_TAG% .'
+                sh 'docker build -t %FULL_IMAGE%:%IMAGE_TAG% .'
             }
         }
 
@@ -40,14 +40,14 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-                    bat 'docker login -u %DOCKER_USER% -p %DOCKER_PASS%'
+                    sh 'docker login -u %DOCKER_USER% -p %DOCKER_PASS%'
                 }
             }
         }
 
         stage('Docker Push') {
             steps {
-                bat 'docker push %FULL_IMAGE%:%IMAGE_TAG%'
+                sh 'docker push %FULL_IMAGE%:%IMAGE_TAG%'
             }
         }
     }
