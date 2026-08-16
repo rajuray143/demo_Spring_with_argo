@@ -8,11 +8,13 @@ pipeline {
     }
 
     environment {
-        DOCKERHUB_USER = "rajuray143"
-        IMAGE_NAME = "demo_spring_with_argo"
-        FULL_IMAGE = "${DOCKERHUB_USER}/${IMAGE_NAME}"
-        IMAGE_TAG = "${BUILD_NUMBER}"
-    }
+    GCP_PROJECT = "springboot-demo-503613"
+    GCP_REGION = "asia-south1"
+    AR_REPOSITORY = "springboot-repo"
+    IMAGE_NAME = "demo-spring-with-argo"
+    IMAGE_TAG = "${BUILD_NUMBER}"
+    FULL_IMAGE = "${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT}/${AR_REPOSITORY}/${IMAGE_NAME}"
+ }
 
     stages {
 
