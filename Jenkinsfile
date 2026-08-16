@@ -59,22 +59,47 @@ pipeline {
         }
 
         stage('Google Cloud Login') {
-    steps {
-        sh '''
-            gcloud auth list
+            steps {
+                sh '''
+                gcloud auth list
 
-            gcloud config set project "$GCP_PROJECT"
+                gcloud config set project "$GCP_PROJECT"
 
-            gcloud auth configure-docker \
+                gcloud auth configure-docker \
                 "$GCP_REGION-docker.pkg.dev" \
                 --quiet
-        '''
-    }
-}
+                '''
+            }
+        }
 
         stage('Docker Push') {
             steps {
                 sh 'docker push $FULL_IMAGE:$IMAGE_TAG'
+            }
+        }
+        stage('Deploy to GKE') {
+            steps {
+                sh '''
+                    echo "===== Get GKE Credentials ====="
+
+                    gcloud container clusters get-credentials springboot-cluster \
+                        --region asia-south1 \
+                        --project springboot-demo-503613
+
+                    echo "===== Apply Kubernetes Manifests ====="
+
+                    kubectl apply -f k8s/deployment.yaml
+                    kubectl apply -f k8s/service.yaml
+
+                    echo "===== Update Image ====="
+
+                    kubectl set image deployment/demo-spring \
+                        demo-spring="$FULL_IMAGE:$IMAGE_TAG"
+
+                    echo "===== Wait for Deployment ====="
+
+                    kubectl rollout status deployment/demo-spring
+                '''
             }
         }
     }
