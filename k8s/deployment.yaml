@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-spring
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: demo-spring
+
+  template:
+    metadata:
+      labels:
+        app: demo-spring
+
+    spec:
+      containers:
+        - name: demo-spring
+          image: asia-south1-docker.pkg.dev/springboot-demo-503613/springboot-repo/demo-spring-with-argo:4
+          ports:
+            - containerPort: 8080
