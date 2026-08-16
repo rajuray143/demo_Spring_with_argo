@@ -58,23 +58,19 @@ pipeline {
             }
         }
 
-        stage('Docker Login') {
-            steps {
-                withCredentials([
-                    usernamePassword(
-                        credentialsId: 'dockerhub-creds',
-                        usernameVariable: 'DOCKER_USER',
-                        passwordVariable: 'DOCKER_PASS'
-                    )
-                ]) {
-                    sh '''
-                        echo "$DOCKER_PASS" | docker login \
-                            -u "$DOCKER_USER" \
-                            --password-stdin
-                    '''
-                }
-            }
-        }
+        stage('Google Cloud Login') {
+    steps {
+        sh '''
+            gcloud auth list
+
+            gcloud config set project "$GCP_PROJECT"
+
+            gcloud auth configure-docker \
+                "$GCP_REGION-docker.pkg.dev" \
+                --quiet
+        '''
+    }
+}
 
         stage('Docker Push') {
             steps {
